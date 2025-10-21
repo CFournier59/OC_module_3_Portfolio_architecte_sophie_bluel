@@ -2,6 +2,13 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+body{
+	background-color: #fffef8;
+}
+
+footer{
+	background-color: white;
+}
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -155,13 +162,13 @@ margin: auto;
 	flex-direction: column;
 }
 
-#contact input {
+#contact input, #login-form input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+#contact label, #login-form label  {
 	margin: 2em 0 1em 0;
 }
 #contact textarea {
@@ -186,7 +193,7 @@ footer nav ul {
 	margin: 2em
 }
 
-/* Ajout style dev FrontEnd */
+/* Ajout style dev FrontEnd - index */
 .filter-button-container{
 	display: flex;
 	justify-content: center;
@@ -206,7 +213,40 @@ button{
 	padding: 0 20px;
 }
 
-button:focus{
+button:focus {
 	background-color: #1D6154;
 	color: #fffef8;
 }
+
+/* Ajout style dev FrontEnd - Login */
+.login-format{
+	height: 100%;
+}
+
+#login-body{
+	display: flex;
+	flex-direction: column;
+}
+
+.login-container{
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.login-container h2{
+	margin-top: 8%;
+}
+
+.forgotten-password{
+	color: #3d3d3d;
+}
+
+#login-form input{
+	width: 379px;
+}
+
+ #login-form label {
+	display:block;
+ }

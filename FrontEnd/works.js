@@ -14,13 +14,26 @@ function displayWorks(works){
         workFigure.appendChild(workFigCaption)
     }
 }
-// fonction principale du script de la page index
-async function mainWorks() {
-    // demande des contenus works et gategories auprès de l'API
-    let reponse = await fetch("http://localhost:5678/api/works")
-    const works = await reponse.json()
-    reponse = await fetch("http://localhost:5678/api/categories")
-    const categories = await reponse.json()
+// fonction qui assure la mise en page du mode édition
+function editorMode(){
+    //on cache les éléments suivants:
+    document.getElementById("login-link").classList.add("d-none")
+    document.querySelector(".filter-button-container").classList.add("d-none")
+    //affichage du bandeau d'édition
+    document.querySelector(".editor-banner").classList.remove("d-none")
+    // gestion du logout
+    const logOutLink = document.getElementById("logout-link")
+    logOutLink.classList.remove("d-none")
+    logOutLink.addEventListener("click", () =>{
+        localStorage.removeItem("currentToken")
+        location.reload()
+    })
+    //gestion du lien de la modale d'édition
+    const modalLink = document.querySelector(".modal-link-container")
+    modalLink.classList.remove("d-none")
+}
+//fonction qui affiche les projets avec les filtres pour les visiteurs du site
+function visitorMode(works, categories){
     //mise en place des boutons de filtres - premier bouton statique et le reste est dynamique
     const buttonContainer = document.querySelector(".filter-button-container")
     const allButton = document.getElementById("allWorks")
@@ -36,8 +49,25 @@ async function mainWorks() {
             displayWorks(filteredWorks)
         })
     }
+}
+// fonction principale du script de la page index
+async function mainWorks() {
+    // demande des contenus works et gategories auprès de l'API
+    let reponse = await fetch("http://localhost:5678/api/works")
+    const works = await reponse.json()
+    reponse = await fetch("http://localhost:5678/api/categories")
+    const categories = await reponse.json()
+    // vérification de présence d'un token pour choisir entre mode visiteur ou éditeur
+    const token = JSON.parse(localStorage.getItem("currentToken"))
+    if(token !== null){
+        editorMode()
+    }
+    else{
+        visitorMode(works, categories)
+    }
     //appel de la fonction d'affichage
     displayWorks(works)
+    console.log("displayworks")
 }
-// pour finir, appel de la fonction principales
+// pour finir, appel de la fonction principale
 await mainWorks()

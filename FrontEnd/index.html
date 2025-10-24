@@ -13,15 +13,22 @@
 </head>
 <body>
 <header>
-	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-	<nav>
-		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li><a href="login.html">login</a></li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
-		</ul>
-	</nav>
+	<div class="editor-banner d-none">
+		<img src="./assets/icons/edit-white.svg" al="icône d'édition">
+		<p>Mode édition</p>
+	</div>
+	<section class="title-and-nav">
+		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+		<nav>
+			<ul>
+				<li>projets</li>
+				<li>contact</li>
+				<li id="login-link"><a href="login.html">login</a></li>
+				<li id="logout-link" class="d-none">logout</li>
+				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+			</ul>
+		</nav>
+	</section>
 </header>
 <main>
 	<section id="introduction">
@@ -37,8 +44,12 @@
 	</section>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
+		<div class="modal-link-container d-none">
+			<img src="./assets/icons/edit-black.svg" alt="Instagram">
+			<span>modifier</span>
+		</div>
 		<div class="filter-button-container">
-			<button class="filter-button" id="allWorks" autofocus>Tous</button>
+			<button id="allWorks" autofocus>Tous</button>
 			<!-- le reste des boutons est dynamique -->
 		</div>
 		<div class="gallery">

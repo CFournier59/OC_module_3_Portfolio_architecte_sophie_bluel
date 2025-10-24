@@ -60,7 +60,7 @@ body {
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
-header {
+.title-and-nav {
 	display: flex;
 	justify-content: space-between;
 	margin: 50px 0
@@ -194,6 +194,31 @@ footer nav ul {
 }
 
 /* Ajout style dev FrontEnd - index */
+.editor-banner{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	height: 59px;
+	background-color: black;
+}
+
+.editor-banner p{
+	color: white;
+	font-size: 16px;
+}
+
+.editor-banner img{
+	height: 15.5px;
+}
+
+.modal-link-container{
+	position: relative;
+	left: 690px;
+	bottom: 50px;
+	padding-bottom: 50px;
+}
+
 .filter-button-container{
 	display: flex;
 	justify-content: center;

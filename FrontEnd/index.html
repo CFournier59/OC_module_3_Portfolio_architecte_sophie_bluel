@@ -13,7 +13,7 @@
 </head>
 <body>
 <header>
-	<div class="editor-banner d-none">
+	<div class="editor-banner d-none" aria-hidden="true">
 		<img src="./assets/icons/edit-white.svg" al="icône d'édition">
 		<p>Mode édition</p>
 	</div>
@@ -44,9 +44,11 @@
 	</section>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
-		<div class="modal-link-container d-none">
-			<img src="./assets/icons/edit-black.svg" alt="Instagram">
-			<span>modifier</span>
+		<div class="modal-link-container d-none" aria-hidden="true">
+			<a href="#modal">
+				<img src="./assets/icons/edit-black.svg" alt="Instagram">
+				<span>modifier</span>
+			</a>
 		</div>
 		<div class="filter-button-container">
 			<button id="allWorks" autofocus>Tous</button>
@@ -70,7 +72,19 @@
 		</form>
 	</section>
 </main>
-
+<!-- modale du mode edition -->
+<aside class="modal" id="modal" aria-hidden="true" aria-labelledby="modal-title">
+	<div class="modal-wrapper">
+		<button id="modal-close-button">
+			<img src="assets/icons/close.svg" alt="bouton close">
+		</button>
+		<h2 class="modal-title" id="modal-title">Galerie photo</h2>
+		<div class="modal-gallery">
+			<!-- gallerie dynamique -->
+		</div>
+		<button id="modal-add-button">Ajouter une photo</button>
+	</div>
+</aside> 
 <footer>
 	<nav>
 		<ul>

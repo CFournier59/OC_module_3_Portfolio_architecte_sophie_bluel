@@ -268,11 +268,11 @@ button:focus {
 
 }
 
-#modal-close-button{
+.modal-button{
 	align-self: self-end;
 	border: none;
 	height: 24px;
-
+	background-color: rgba(0, 0, 0, 0);
 }
 
 .modal-title{
@@ -284,8 +284,25 @@ button:focus {
 
 .modal-gallery{
 	border-bottom: solid 1px #b3b3b3;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 10px;
+	width: 80%;
 }
 
+.modal-element{
+	height: 103px;
+	width: 77px
+}
+
+.modal-element img{
+	width: 100%;
+}
+
+.modal-delete-icon{
+	height: 17px;
+}
 
 /* Ajout style dev FrontEnd - Login */
 .login-format{

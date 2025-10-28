@@ -1,3 +1,5 @@
+import { modalDisplayWorks, openModal } from "./modal.js"
+
 //fonction d'affichage des travaux
 function displayWorks(works){
     const gallery = document.querySelector(".gallery")
@@ -15,7 +17,7 @@ function displayWorks(works){
     }
 }
 // fonction qui assure la mise en page du mode édition
-function editorMode(){
+function editorMode(works){
     //on cache les éléments suivants:
     document.getElementById("login-link").classList.add("d-none")
     document.querySelector(".filter-button-container").classList.add("d-none")
@@ -31,6 +33,12 @@ function editorMode(){
     //gestion du lien de la modale d'édition
     const modalLink = document.querySelector(".modal-link-container")
     modalLink.classList.remove("d-none")
+    modalLink.addEventListener("click", () => {
+        openModal(modalLink)
+        modalDisplayWorks(works)
+
+    })
+    
 }
 //fonction qui affiche les projets avec les filtres pour les visiteurs du site
 function visitorMode(works, categories){
@@ -60,13 +68,14 @@ async function mainWorks() {
     // vérification de présence d'un token pour choisir entre mode visiteur ou éditeur
     const token = JSON.parse(localStorage.getItem("currentToken"))
     if(token !== null){
-        editorMode()
+        editorMode(works)
     }
     else{
         visitorMode(works, categories)
     }
     //appel de la fonction d'affichage
     displayWorks(works)
+    //appel de la modale
 }
 // pour finir, appel de la fonction principale
 await mainWorks()

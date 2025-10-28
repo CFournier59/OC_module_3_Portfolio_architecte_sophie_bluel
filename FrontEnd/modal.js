@@ -1,28 +1,43 @@
 const modal = document.querySelector(".modal")
-const closeButton = document.getElementById("close-button")
+const closeButtons = document.querySelectorAll(".close-button")
+//fonction qui gère les listeners pour les tableaux d'éléments
+function elementsListenerHandler(elements, action){
+    for(const element of elements){
+        switch(action){
+            case "add-closeModal" :  
+                element.addEventListener("click", closeModal)
+                break
+            case "remove-closeModal" :
+                element.removeEventListener("click", closeModal)
+                break
+            case "stop-propagation" :
+                element.addEventListener("click", (event) =>{
+                    event.stopPropagation()
+                })
+            }
+    }
+}
 //sous fonction de fermeture de la modale
-function closeModalHandler(modal, closeButton){
+function closeModalHandler(modal, closeButtons){
     modal.classList.toggle("d-none")
     modal.removeAttribute("aria-modal")
     modal.setAttribute("aria-hidden", "true")
     modal.removeEventListener("click", closeModal)
-    closeButton.removeEventListener("click", closeModal)
+    elementsListenerHandler(closeButtons, "remove-closeModal")
 }
 //fonction de fermeture de la modale
 function closeModal(){
-    closeModalHandler(modal, closeButton)
+    closeModalHandler(modal, closeButtons)
 }
 //fonction d'ouverture de la modale
 export function openModal(modalLink){
-    const modalWrapper = document.querySelector(".modal-wrapper")
+    const modalWrappers = document.querySelectorAll(".modal-wrapper")
     modal.classList.toggle("d-none")
     modal.removeAttribute("aria-hidden")
     modal.setAttribute("aria-modal", "true")
     modal.addEventListener( "click", closeModal) 
-    closeButton.addEventListener("click", closeModal)
-    modalWrapper.addEventListener("click", (event) =>{
-        event.stopPropagation()
-    }) 
+    elementsListenerHandler(closeButtons, "add-closeModal")
+    elementsListenerHandler(modalWrappers, "stop-propagation")  
 }
 //fonction d'affichage des travaux pour la modale
 export function modalDisplayWorks(works){

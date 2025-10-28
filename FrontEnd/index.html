@@ -74,16 +74,44 @@
 </main>
 <!-- modale du mode edition -->
 <aside class="modal d-none" id="modal" aria-hidden="true" aria-labelledby="modal-title">
-	<div class="modal-wrapper">
-		<button class="modal-button" id="close-button">
+	<!-- premier wrapper contenant la gallerie en miniature -->
+	<section class="modal-wrapper">
+		<button class="close-button">
 			<img src="assets/icons/close.svg" alt="bouton close">
 		</button>
-		<h2 class="modal-title" id="modal-title">Galerie photo</h2>
+		<h2 class="modal-title">Galerie photo</h2>
 		<div class="modal-gallery">
 			<!-- gallerie dynamique -->
 		</div>
 		<button id="modal-add-button">Ajouter une photo</button>
-	</div>
+	</section>
+	<!-- deuxième wrapper contenant le formulaire d'ajout de projet -->
+	<section class="modal-wrapper d-none">
+		<button class="modal-button" id="back-button">
+			<img src="assets/icons/back.svg" alt="bouton précèdent">
+		</button>
+		<button class="close-button">
+			<img src="assets/icons/close.svg" alt="bouton close">
+		</button>	
+		<h2 class="modal-title">Ajout photo</h2>
+		<form id="add-work-form" action="#" method="post">
+			<fieldset class="add-photo-fieldset">
+				<img src="assets/icons/img-placeholder.svg" alt="aucune image importée">
+				<input type="file" accept="image/png, image/jpeg, image/jpg" class="d-none" name="file-input" id="file-input">
+				<label for="file-input" class="file-label">+ Ajouter photo</label>
+				<p class="file-specification">jpg, png : 4mo max</p>
+			</fieldset>
+			<fieldset class="add-properties-fieldset">
+				<label for="title-input">Titre</label>
+				<input type="text" id="title-input" name="title-input">
+				<label for="category-select">Catégorie</label>
+				<select name="category-select" id="category-select">
+					<!-- les options sont ajoutées via javascript -->
+				</select>
+			</fieldset>
+			<input type="submit" value="Valider">
+		</form>
+	</section>
 </aside> 
 <footer>
 	<nav>

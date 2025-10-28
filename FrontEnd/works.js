@@ -36,9 +36,7 @@ function editorMode(works){
     modalLink.addEventListener("click", () => {
         openModal(modalLink)
         modalDisplayWorks(works)
-
     })
-    
 }
 //fonction qui affiche les projets avec les filtres pour les visiteurs du site
 function visitorMode(works, categories){

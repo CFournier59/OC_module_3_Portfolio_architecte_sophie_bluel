@@ -14,7 +14,20 @@ function elementsListenerHandler(elements, action){
                 element.addEventListener("click", (event) =>{
                     event.stopPropagation()
                 })
-            }
+                break
+            case "swap-wrapper" :
+                element.classList.toggle("d-none")
+        }
+
+    }
+}
+// fonction qui met en place les boutons de permutation d'affichage de la modale
+function swapWrapper(modalWrappers){
+    const swapButtons = document.querySelectorAll(".swap-button")
+    for(const button of swapButtons){
+        button.addEventListener("click", (event) =>{
+            elementsListenerHandler(modalWrappers, "swap-wrapper")
+        })
     }
 }
 //sous fonction de fermeture de la modale
@@ -30,8 +43,7 @@ function closeModal(){
     closeModalHandler(modal, closeButtons)
 }
 //fonction d'ouverture de la modale
-export function openModal(modalLink){
-    const modalWrappers = document.querySelectorAll(".modal-wrapper")
+function openModal(modalWrappers){
     modal.classList.toggle("d-none")
     modal.removeAttribute("aria-hidden")
     modal.setAttribute("aria-modal", "true")
@@ -40,7 +52,7 @@ export function openModal(modalLink){
     elementsListenerHandler(modalWrappers, "stop-propagation")  
 }
 //fonction d'affichage des travaux pour la modale
-export function modalDisplayWorks(works){
+function modalDisplayWorks(works){
     const modalGallery = document.querySelector(".modal-gallery")
     modalGallery.innerHTML = ""
     for(const work of works){
@@ -54,3 +66,15 @@ export function modalDisplayWorks(works){
         modalGallery.appendChild(workElement)   
     }
 }
+// fonction principale de la modale
+export function modalHandler(works){
+    const modalLink = document.querySelector(".modal-link-container")
+    modalLink.classList.remove("d-none")
+    const modalWrappers = document.querySelectorAll(".modal-wrapper")
+    modalLink.addEventListener("click", () => {
+        openModal(modalWrappers)    
+    })
+    modalDisplayWorks(works)
+    swapWrapper(modalWrappers)
+}
+

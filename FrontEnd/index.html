@@ -83,33 +83,35 @@
 		<div class="modal-gallery">
 			<!-- gallerie dynamique -->
 		</div>
-		<button id="modal-add-button">Ajouter une photo</button>
+		<button class="swap-button bottom-button" id="modal-add-photo">Ajouter une photo</button>
 	</section>
 	<!-- deuxième wrapper contenant le formulaire d'ajout de projet -->
 	<section class="modal-wrapper d-none">
-		<button class="modal-button" id="back-button">
-			<img src="assets/icons/back.svg" alt="bouton précèdent">
-		</button>
-		<button class="close-button">
-			<img src="assets/icons/close.svg" alt="bouton close">
-		</button>	
+		<div class="wrapper-button-container">
+			<button class="modal-button swap-button" id="back-button">
+				<img src="assets/icons/back.svg" alt="bouton précèdent">
+			</button>
+			<button class="close-button">
+				<img src="assets/icons/close.svg" alt="bouton close">
+			</button>
+		</div>
 		<h2 class="modal-title">Ajout photo</h2>
 		<form id="add-work-form" action="#" method="post">
 			<fieldset class="add-photo-fieldset">
-				<img src="assets/icons/img-placeholder.svg" alt="aucune image importée">
+				<img src="assets/icons/img-placeholder.svg" alt="aucune image importée"><br>
 				<input type="file" accept="image/png, image/jpeg, image/jpg" class="d-none" name="file-input" id="file-input">
 				<label for="file-input" class="file-label">+ Ajouter photo</label>
 				<p class="file-specification">jpg, png : 4mo max</p>
 			</fieldset>
 			<fieldset class="add-properties-fieldset">
-				<label for="title-input">Titre</label>
-				<input type="text" id="title-input" name="title-input">
-				<label for="category-select">Catégorie</label>
+				<label for="title-input">Titre</label><br>
+				<input type="text" id="title-input" name="title-input"><br>
+				<label for="category-select">Catégorie</label><br>
 				<select name="category-select" id="category-select">
 					<!-- les options sont ajoutées via javascript -->
 				</select>
 			</fieldset>
-			<input type="submit" value="Valider">
+			<input type="submit" value="Valider" class="bottom-button" style="background-color: #a7a7a7;">
 		</form>
 	</section>
 </aside> 

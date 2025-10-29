@@ -1,5 +1,4 @@
-import { modalDisplayWorks, openModal } from "./modal.js"
-
+import { modalHandler } from "./modal.js"
 //fonction d'affichage des travaux
 function displayWorks(works){
     const gallery = document.querySelector(".gallery")
@@ -31,12 +30,7 @@ function editorMode(works){
         location.reload()
     })
     //gestion du lien de la modale d'édition
-    const modalLink = document.querySelector(".modal-link-container")
-    modalLink.classList.remove("d-none")
-    modalLink.addEventListener("click", () => {
-        openModal(modalLink)
-        modalDisplayWorks(works)
-    })
+    modalHandler(works)
 }
 //fonction qui affiche les projets avec les filtres pour les visiteurs du site
 function visitorMode(works, categories){

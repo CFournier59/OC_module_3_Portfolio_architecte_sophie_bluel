@@ -140,8 +140,10 @@ li:hover {
 	grid-row-gap: 20px;
 }
 
-.gallery img {
+.gallery img, .modal-element img {
 	width: 100%;
+	aspect-ratio: 610/814;
+	object-fit: cover;
 
 }
 #contact {
@@ -305,10 +307,6 @@ button:focus {
 .modal-element{
 	height: 103px;
 	width: 77px
-}
-
-.modal-element img{
-	width: 100%;
 }
 
 .modal-delete-icon{

@@ -70,18 +70,17 @@ function modalDisplayWorks(works){
     }
 }
 // fonction qui prend en charge la suppression du projet quand on clique sur son icône "poubelle"
-async function setWorkDeletion(works){
+async function setWorkDeletion(works, token){
     const deleteButtons = document.querySelectorAll(".delete-button")
     for(const button of deleteButtons){
         button.addEventListener("click", async () =>{
             console.log(button.id)
             let reponse = await fetch(`http://localhost:5678/api/works/${button.id}`, {
                 method: "DELETE",
-                headers: {"Authorization": "patate"}
+                headers: {"Authorization": `Bearer ${token.token}`}
             })
             console.log(reponse.status)
-            modalDisplayWorks(works)
-            setWorkDeletion(works)
+            location.reload()
         })
     }
 }
@@ -120,7 +119,6 @@ function formCompletionListeners(uploadField, titleField, categorySelector ){
             if((uploadField.value && titleField.value.trim() && categorySelector.value) !== ""){
                 submitWorkButton.removeAttribute("style")
                 readyToSubmit = true
-                console.log(readyToSubmit)
             }
             else{
                 if(!submitWorkButton.style.backgroundColor){
@@ -131,7 +129,7 @@ function formCompletionListeners(uploadField, titleField, categorySelector ){
     }
 }
 // fonction principale du formulaire de création de projet
-function setAddWorkForm(works, categories, token) {
+function setAddWorkForm(categories, token) {
     const uploadField = document.getElementById("file-input")
     const titleField = document.getElementById("title-input")
     const categorySelector = document.querySelector("select")
@@ -140,23 +138,19 @@ function setAddWorkForm(works, categories, token) {
     formCompletionListeners( uploadField, titleField, categorySelector, readyToSubmit)
     document.getElementById("add-work-form").addEventListener("submit", async (event) =>{
         event.preventDefault()
-        console.log(readyToSubmit)
         if(readyToSubmit){
-            const payload = {
-                image: setUploadField(uploadField),
-                title: titleField.value.trim(),
-                category: parseInt(categorySelector.value)
-            }
+            const formData = new FormData()
+            formData.append("image", uploadField.files[0])
+            formData.append("title", titleField.value)
+            formData.append("category", parseInt(categorySelector.value))
             const reponse = await fetch("http://localhost:5678/api/works", {
                 method: "POST",
-                headers: {"Content-Type": "application/json", "Authorization": token.token},
-                body: JSON.stringify(payload)
+                headers: {"Authorization": `Bearer ${token.token}`},
+                body: formData
             })
-            console.log(token.token)
-            console.log(reponse.status)
-            modalDisplayWorks(works)
-        }
-        else{
+            if(reponse.ok){
+                location.reload()
+            }
         }
     })
 }
@@ -170,6 +164,6 @@ export function modalHandler(works, categories, token){
     modalDisplayWorks(works)
     swapWrapper(modalWrappers)
     setWorkDeletion(works, token)
-    setAddWorkForm(works, categories, token)
+    setAddWorkForm(categories, token)
 }
 

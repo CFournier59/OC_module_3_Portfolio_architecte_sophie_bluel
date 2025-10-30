@@ -67,7 +67,6 @@ async function mainWorks() {
     }
     //appel de la fonction d'affichage
     displayWorks(works)
-    //appel de la modale
 }
 // pour finir, appel de la fonction principale
 await mainWorks()

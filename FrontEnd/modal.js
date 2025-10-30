@@ -1,5 +1,7 @@
 const modal = document.querySelector(".modal")
+const modalWrappers = document.querySelectorAll(".modal-wrapper")
 const closeButtons = document.querySelectorAll(".close-button")
+let readyToSubmit = false
 //fonction qui gère les listeners pour les tableaux d'éléments
 function elementsListenerHandler(elements, action){
     for(const element of elements){
@@ -18,7 +20,6 @@ function elementsListenerHandler(elements, action){
             case "swap-wrapper" :
                 element.classList.toggle("d-none")
         }
-
     }
 }
 // fonction qui met en place les boutons de permutation d'affichage de la modale
@@ -31,16 +32,18 @@ function swapWrapper(modalWrappers){
     }
 }
 //sous fonction de fermeture de la modale
-function closeModalHandler(modal, closeButtons){
+function closeModalHandler(modal, closeButtons, modalWrappers){
     modal.classList.toggle("d-none")
     modal.removeAttribute("aria-modal")
     modal.setAttribute("aria-hidden", "true")
     modal.removeEventListener("click", closeModal)
     elementsListenerHandler(closeButtons, "remove-closeModal")
+    modalWrappers[0].setAttribute("class", "modal-wrapper")
+    modalWrappers[1].setAttribute("class", "modal-wrapper d-none")
 }
 //fonction de fermeture de la modale
 function closeModal(){
-    closeModalHandler(modal, closeButtons)
+    closeModalHandler(modal, closeButtons, modalWrappers)
 }
 //fonction d'ouverture de la modale
 function openModal(modalWrappers){
@@ -60,21 +63,113 @@ function modalDisplayWorks(works){
         workElement.classList.add("modal-element")
         workElement.innerHTML = `
             <img src="${work.imageUrl}" alt="${work.title}">
-            <button class="modal-button">
+            <button class="modal-button delete-button" id="${work.id}">
                 <img src="./assets/icons/delete.svg" alt="bouton supprimer" class="modal-delete-icon">
             </button>`
         modalGallery.appendChild(workElement)   
     }
 }
+// fonction qui prend en charge la suppression du projet quand on clique sur son icône "poubelle"
+async function setWorkDeletion(works){
+    const deleteButtons = document.querySelectorAll(".delete-button")
+    for(const button of deleteButtons){
+        button.addEventListener("click", async () =>{
+            console.log(button.id)
+            let reponse = await fetch(`http://localhost:5678/api/works/${button.id}`, {
+                method: "DELETE",
+                headers: {"Authorization": "patate"}
+            })
+            console.log(reponse.status)
+            modalDisplayWorks(works)
+            setWorkDeletion(works)
+        })
+    }
+}
+// fonction qui prend en charge le chargement d'image du formulaire
+function setUploadField(uploadField){
+    uploadField.value = ""
+    uploadField.onchange = (event) => {
+        if(event.target.files[0].size >4194304){
+            alert("cette image est trop volumineuse!")
+            event.target.value = ""
+        }
+        else{
+            const imageFieldSet = document.querySelector(".add-photo-fieldset")
+            const uploadedImage = URL.createObjectURL(event.target.files[0])
+            imageFieldSet.innerHTML =  `<img src="${uploadedImage}" height="169">` 
+            return uploadedImage  
+        }  
+    }
+}
+//fonction qui gère la liste de catégories du formulaire
+function setCategorySelection(categorySelector, categories){
+    for(const category of categories){
+        const categoryOption = document.createElement("option")
+        categoryOption.value = category.id
+        categoryOption.innerText = category.name
+        categorySelector.appendChild(categoryOption)
+    }
+}
+//fonction qui vérifie si le formulaire est prêt à l'envoi
+function formCompletionListeners(uploadField, titleField, categorySelector ){
+    titleField.value = ""
+    const submitWorkButton = document.getElementById("submit-work-button")
+    const formFields = [uploadField, titleField, categorySelector]
+    for(const field of formFields){
+        field.addEventListener("change", (event) =>{
+            if((uploadField.value && titleField.value.trim() && categorySelector.value) !== ""){
+                submitWorkButton.removeAttribute("style")
+                readyToSubmit = true
+                console.log(readyToSubmit)
+            }
+            else{
+                if(!submitWorkButton.style.backgroundColor){
+                    submitWorkButton.setAttribute("style", "background-color: #a7a7a7;")
+                }
+            }
+        })
+    }
+}
+// fonction principale du formulaire de création de projet
+function setAddWorkForm(works, categories, token) {
+    const uploadField = document.getElementById("file-input")
+    const titleField = document.getElementById("title-input")
+    const categorySelector = document.querySelector("select")
+    setUploadField(uploadField)
+    setCategorySelection(categorySelector, categories)
+    formCompletionListeners( uploadField, titleField, categorySelector, readyToSubmit)
+    document.getElementById("add-work-form").addEventListener("submit", async (event) =>{
+        event.preventDefault()
+        console.log(readyToSubmit)
+        if(readyToSubmit){
+            const payload = {
+                image: setUploadField(uploadField),
+                title: titleField.value.trim(),
+                category: parseInt(categorySelector.value)
+            }
+            const reponse = await fetch("http://localhost:5678/api/works", {
+                method: "POST",
+                headers: {"Content-Type": "application/json", "Authorization": token.token},
+                body: JSON.stringify(payload)
+            })
+            console.log(token.token)
+            console.log(reponse.status)
+            modalDisplayWorks(works)
+        }
+        else{
+        }
+    })
+}
 // fonction principale de la modale
-export function modalHandler(works){
+export function modalHandler(works, categories, token){
     const modalLink = document.querySelector(".modal-link-container")
     modalLink.classList.remove("d-none")
-    const modalWrappers = document.querySelectorAll(".modal-wrapper")
     modalLink.addEventListener("click", () => {
         openModal(modalWrappers)    
     })
     modalDisplayWorks(works)
     swapWrapper(modalWrappers)
+    setWorkDeletion(works, token)
+    setAddWorkForm(works, categories, token)
 }
 

@@ -16,7 +16,7 @@ function displayWorks(works){
     }
 }
 // fonction qui assure la mise en page du mode édition
-function editorMode(works){
+function editorMode(works, categories, token){
     //on cache les éléments suivants:
     document.getElementById("login-link").classList.add("d-none")
     document.querySelector(".filter-button-container").classList.add("d-none")
@@ -30,7 +30,7 @@ function editorMode(works){
         location.reload()
     })
     //gestion du lien de la modale d'édition
-    modalHandler(works)
+    modalHandler(works, categories, token)
 }
 //fonction qui affiche les projets avec les filtres pour les visiteurs du site
 function visitorMode(works, categories){
@@ -60,7 +60,7 @@ async function mainWorks() {
     // vérification de présence d'un token pour choisir entre mode visiteur ou éditeur
     const token = JSON.parse(localStorage.getItem("currentToken"))
     if(token !== null){
-        editorMode(works)
+        editorMode(works, categories, token)
     }
     else{
         visitorMode(works, categories)

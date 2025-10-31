@@ -69,18 +69,23 @@ function modalDisplayWorks(works){
         modalGallery.appendChild(workElement)   
     }
 }
+//fonction de mise à jour de la gallerie modale après suppression ou ajout de projet
+async function resetModalGallery(token){
+    const reponse = await fetch("http://localhost:5678/api/works")
+    const works = await reponse.json()
+    modalDisplayWorks(works)
+    setWorkDeletion(works, token)
+}
 // fonction qui prend en charge la suppression du projet quand on clique sur son icône "poubelle"
 async function setWorkDeletion(works, token){
     const deleteButtons = document.querySelectorAll(".delete-button")
     for(const button of deleteButtons){
         button.addEventListener("click", async () =>{
-            console.log(button.id)
             let reponse = await fetch(`http://localhost:5678/api/works/${button.id}`, {
                 method: "DELETE",
                 headers: {"Authorization": `Bearer ${token.token}`}
             })
-            console.log(reponse.status)
-            location.reload()
+            resetModalGallery(token)    
         })
     }
 }
@@ -124,19 +129,46 @@ function formCompletionListeners(uploadField, titleField, categorySelector ){
                 if(!submitWorkButton.style.backgroundColor){
                     submitWorkButton.setAttribute("style", "background-color: #a7a7a7;")
                 }
+                readyToSubmit = false
             }
         })
     }
 }
+//Fonction d'initialisation du formulaire
+function initAddWorkForm(){
+    const formWrapper = document.getElementById("form-wrapper")
+    const form =  document.createElement("form")
+    form.id = "add-work-form"
+    form.innerHTML = `
+        <fieldset class="add-photo-fieldset">
+            <img src="assets/icons/img-placeholder.svg" alt="aucune image importée"><br>
+            <input type="file" accept="image/png, image/jpeg, image/jpg" class="d-none" name="file-input" id="file-input">
+            <label for="file-input" class="file-label">+ Ajouter photo</label>
+            <p class="file-specification">jpg, png : 4mo max</p>
+		</fieldset>
+        <fieldset class="add-properties-fieldset">
+            <label for="title-input">Titre</label><br>
+            <input type="text" id="title-input" name="title-input"><br>
+            <label for="category-select">Catégorie</label><br>
+            <select name="category-select" id="category-select">
+                <option value="">Choisir une catégorie</option>
+            </select>
+        </fieldset>
+        <input type="submit" value="Valider" id="submit-work-button" class="bottom-button" style="background-color: #a7a7a7;">`
+    formWrapper.appendChild(form)
+}
 // fonction principale du formulaire de création de projet
 function setAddWorkForm(categories, token) {
+    readyToSubmit = false
+    initAddWorkForm()
+    const addWorkForm = document.getElementById("add-work-form")
     const uploadField = document.getElementById("file-input")
     const titleField = document.getElementById("title-input")
     const categorySelector = document.querySelector("select")
     setUploadField(uploadField)
     setCategorySelection(categorySelector, categories)
     formCompletionListeners( uploadField, titleField, categorySelector, readyToSubmit)
-    document.getElementById("add-work-form").addEventListener("submit", async (event) =>{
+    addWorkForm.addEventListener("submit", async (event) =>{
         event.preventDefault()
         if(readyToSubmit){
             const formData = new FormData()
@@ -149,7 +181,10 @@ function setAddWorkForm(categories, token) {
                 body: formData
             })
             if(reponse.ok){
-                location.reload()
+                addWorkForm.remove()
+                setAddWorkForm(categories, token)
+                elementsListenerHandler(modalWrappers, "swap-wrapper")
+                resetModalGallery(token)
             }
         }
     })

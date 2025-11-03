@@ -13,7 +13,7 @@
 </head>
 <body>
 <header>
-	<div class="editor-banner d-none">
+	<div class="editor-banner d-none" aria-hidden="true">
 		<img src="./assets/icons/edit-white.svg" al="icône d'édition">
 		<p>Mode édition</p>
 	</div>
@@ -21,8 +21,8 @@
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
 			<ul>
-				<li>projets</li>
-				<li>contact</li>
+				<li><a href="#portfolio">projets</a></li>
+				<li><a href="#contact">contact</a></li>
 				<li id="login-link"><a href="login.html">login</a></li>
 				<li id="logout-link" class="d-none">logout</li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
@@ -44,9 +44,11 @@
 	</section>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
-		<div class="modal-link-container d-none">
-			<img src="./assets/icons/edit-black.svg" alt="Instagram">
-			<span>modifier</span>
+		<div class="modal-link-container d-none" aria-hidden="true">
+			<a href="#modal">
+				<img src="./assets/icons/edit-black.svg" alt="Instagram">
+				<span>modifier</span>
+			</a>
 		</div>
 		<div class="filter-button-container">
 			<button id="allWorks" autofocus>Tous</button>
@@ -70,7 +72,33 @@
 		</form>
 	</section>
 </main>
-
+<!-- modale du mode edition -->
+<aside class="modal d-none" id="modal" aria-hidden="true" aria-labelledby="modal-title">
+	<!-- premier wrapper contenant la gallerie en miniature -->
+	<section class="modal-wrapper">
+		<button class="close-button">
+			<img src="assets/icons/close.svg" alt="bouton close">
+		</button>
+		<h2 class="modal-title">Galerie photo</h2>
+		<div class="modal-gallery">
+			<!-- gallerie dynamique -->
+		</div>
+		<button class="swap-button bottom-button" id="modal-add-photo">Ajouter une photo</button>
+	</section>
+	<!-- deuxième wrapper contenant le formulaire d'ajout de projet -->
+	<section class="modal-wrapper d-none" id="form-wrapper">
+		<div class="wrapper-button-container">
+			<button class="modal-button swap-button" id="back-button">
+				<img src="assets/icons/back.svg" alt="bouton précèdent">
+			</button>
+			<button class="close-button">
+				<img src="assets/icons/close.svg" alt="bouton close">
+			</button>
+		</div>
+		<h2 class="modal-title">Ajout photo</h2>
+		<!-- formulaire d'ajout en dynamique (modal.js) -->
+	</section>
+</aside> 
 <footer>
 	<nav>
 		<ul>

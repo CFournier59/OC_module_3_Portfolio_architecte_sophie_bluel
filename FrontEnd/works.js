@@ -50,6 +50,48 @@ function visitorMode(works, categories){
         })
     }
 }
+// fonction qui gère vérifie les champs du formulaire de contact
+function checkContactFields(name, email, message){
+    if(name === "" || email === ""|| message === ""){
+        throw new Error("Un ou plusieurs champs sont vides, vérifez votre saisie")
+    }
+    const mailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+")
+    if(mailRegExp.test(email) !== true){
+        throw new Error("votre email n'est pas valide")
+    }
+}
+// fonction qui gère le formulaire de contact
+function contactFormHandler(){
+    const name = document.getElementById("name")
+    const email = document.getElementById("email")
+    const message = document.getElementById("message")
+    const errorMessage =  document.querySelector(".error-message")
+    name.value = ""
+    email.value = ""
+    message.value = ""
+    document.getElementById("contact-form").addEventListener("submit", (event) => {
+        event.preventDefault()
+        try{
+            checkContactFields(name.value.trim(), email.value.trim(), message.value.trim())
+            // en attendant d'avoir défini un environement de traitement des reqêtes client, affichage en tant qu'objet dans un console.log
+            const projectRequest = {
+                prName : name.value.trim(),
+                prEmail : email.value.trim(),
+                prMessage : message.value.trim()
+            }
+            if(!errorMessage.classList.contains("d-none")){
+                errorMessage.classList.add("d-none")
+            }
+            console.log(projectRequest)
+        }
+        catch(error){
+            errorMessage.innerText = error.message
+            if(errorMessage.classList.contains("d-none")){
+                errorMessage.classList.remove("d-none")
+            }  
+        }
+    })
+}
 // fonction principale du script de la page index
 async function mainWorks() {
     // demande des contenus works et gategories auprès de l'API
@@ -57,6 +99,8 @@ async function mainWorks() {
     const works = await reponse.json()
     reponse = await fetch("http://localhost:5678/api/categories")
     const categories = await reponse.json()
+    //gestion du formulaire de contat
+    contactFormHandler()
     // vérification de présence d'un token pour choisir entre mode visiteur ou éditeur
     const token = JSON.parse(localStorage.getItem("currentToken"))
     if(token !== null){

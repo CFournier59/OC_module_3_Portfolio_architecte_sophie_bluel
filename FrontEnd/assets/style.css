@@ -290,6 +290,10 @@ li:hover, li a:hover {
 	background-color: rgba(0, 0, 0, 0);
 }
 
+.modal-button:focus, .close-button:focus{
+	background-color: initial;
+}
+
 .modal-title{
 	font-family: "Work Sans";
 	font-size: 26px;

@@ -66,9 +66,6 @@ function contactFormHandler(){
     const email = document.getElementById("email")
     const message = document.getElementById("message")
     const errorMessage =  document.querySelector(".error-message")
-    name.value = ""
-    email.value = ""
-    message.value = ""
     document.getElementById("contact-form").addEventListener("submit", (event) => {
         event.preventDefault()
         try{
@@ -82,6 +79,9 @@ function contactFormHandler(){
             if(!errorMessage.classList.contains("d-none")){
                 errorMessage.classList.add("d-none")
             }
+            name.value = ""
+            email.value = ""
+            message.value = ""
             console.log(projectRequest)
         }
         catch(error){

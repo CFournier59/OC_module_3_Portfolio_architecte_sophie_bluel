@@ -97,7 +97,23 @@
 			</button>
 		</div>
 		<h2 class="modal-title">Ajout photo</h2>
-		<!-- formulaire d'ajout en dynamique (modal.js) -->
+		<form id="add-work-form">
+			<fieldset class="add-photo-fieldset">
+				<img src="assets/icons/img-placeholder.svg" alt="aucune image importée"><br>
+				<input type="file" accept="image/png, image/jpeg, image/jpg" class="d-none" name="file-input" id="file-input">
+				<label for="file-input" class="file-label">+ Ajouter photo</label>
+				<p class="file-specification">jpg, png : 4mo max</p>
+			</fieldset>
+			<fieldset class="add-properties-fieldset">
+				<label for="title-input">Titre</label><br>
+				<input type="text" id="title-input" name="title-input"><br>
+				<label for="category-select">Catégorie</label><br>
+				<select name="category-select" id="category-select">
+					<option value="">Choisir une catégorie</option>
+				</select>
+			</fieldset>
+			<input type="submit" value="Valider" id="submit-work-button" class="bottom-button" style="background-color: #a7a7a7;">`
+		</form>
 	</section>
 </aside> 
 <footer>

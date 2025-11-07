@@ -134,33 +134,9 @@ function formCompletionListeners(uploadField, titleField, categorySelector ){
         })
     }
 }
-//Fonction d'initialisation du formulaire
-function initAddWorkForm(){
-    const formWrapper = document.getElementById("form-wrapper")
-    const form =  document.createElement("form")
-    form.id = "add-work-form"
-    form.innerHTML = `
-        <fieldset class="add-photo-fieldset">
-            <img src="assets/icons/img-placeholder.svg" alt="aucune image importée"><br>
-            <input type="file" accept="image/png, image/jpeg, image/jpg" class="d-none" name="file-input" id="file-input">
-            <label for="file-input" class="file-label">+ Ajouter photo</label>
-            <p class="file-specification">jpg, png : 4mo max</p>
-		</fieldset>
-        <fieldset class="add-properties-fieldset">
-            <label for="title-input">Titre</label><br>
-            <input type="text" id="title-input" name="title-input"><br>
-            <label for="category-select">Catégorie</label><br>
-            <select name="category-select" id="category-select">
-                <option value="">Choisir une catégorie</option>
-            </select>
-        </fieldset>
-        <input type="submit" value="Valider" id="submit-work-button" class="bottom-button" style="background-color: #a7a7a7;">`
-    formWrapper.appendChild(form)
-}
 // fonction principale du formulaire de création de projet
 function setAddWorkForm(categories, token) {
     readyToSubmit = false
-    initAddWorkForm()
     const addWorkForm = document.getElementById("add-work-form")
     const uploadField = document.getElementById("file-input")
     const titleField = document.getElementById("title-input")
@@ -180,9 +156,8 @@ function setAddWorkForm(categories, token) {
                 headers: {"Authorization": `Bearer ${token.token}`},
                 body: formData
             })
+            console.log(formData)
             if(reponse.ok){
-                addWorkForm.remove()
-                setAddWorkForm(categories, token)
                 elementsListenerHandler(modalWrappers, "swap-wrapper")
                 resetModalGallery(token)
             }
